@@ -73,13 +73,8 @@
 		unwrap to requested type [javax.sql.DataSource]） 数据源有多种选择，这里采用Spring自带的。 -->
 	<bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.p6spy.engine.spy.P6SpyDriver"></property>
-		<!--<property name="jdbcUrl"-->
-				  <!--value="jdbc:p6spy:mysql://127.0.0.1:3306/db_hodays?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>-->
-		<!--<property name="user" value="server_user"/>-->
-		<!--<property name="password" value="server_user"/>-->
-
 		<property name="jdbcUrl"
-				  value="jdbc:p6spy:mysql://127.0.0.1:3306/luxuryvoice_v2_test_copy?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
+				  value="jdbc:p6spy:mysql://127.0.0.1:3306/family_finance?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
 		<property name="user" value="root"/>
 		<property name="password" value="root"/>
 
