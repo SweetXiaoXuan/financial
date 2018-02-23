@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:beans="http://cxf.apache.org/configuration/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:core="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://cxf.apache.org/configuration/beans 
+		http://cxf.apache.org/schemas/configuration/cxf-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://cxf.apache.org/transports/jms http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!-- 配置web service(用户相关) -->
+	<jaxrs:server id="User" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="fuserService" />
+			<ref bean="fnewsService" />
+			<ref bean="fdecNewsService" />
+			<!--<ref bean="uploadNewsImage" />-->
+			<ref bean="fimageService" />
+			<ref bean="fpolicyService" />
+			<ref bean="futilService" />
+			<ref bean="fauthService" />
+			<ref bean="fIndexService" />
+			<ref bean="fActivityService" />
+			<ref bean="fIndexProductService" />
+			<ref bean="fIndexDesignerService" />
+			<ref bean="fIndexFashionService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<ref bean="sessionFilter"></ref>
+			<ref bean="reserveViews" />
+		</jaxrs:providers>
+	</jaxrs:server>
+	<bean id="sessionFilter" class="cn.xxtui.support.session.SessionFilter"></bean>
+	<bean id="reserveViews" class="org.apache.cxf.jaxrs.provider.RequestDispatcherProvider">
+		<property name="dispatcherName" value="jsp" />
+		<property name="saveParametersAsAttributes" value="true"></property>
+		<property name="classResources">
+			<map>
+				<!-- <entry key="edu.student.bean.other.HomeBean" value="/WEB-INF/jsp/personal_homepage.jsp" 
+					/> -->
+			</map>
+		</property>
+		<property name="beanNames">
+			<map>
+				<!-- <entry key="edu.student.bean.other.Regist" value="regist" /> -->
+			</map>
+		</property>
+		<property name="enumResources">
+			<map>
+				<!-- <entry key="edu.student.service.Pages.PERSONAL_INFO" value="/WEB-INF/jsp/reg_personal_info.jsp"></entry> -->
+			</map>
+		</property>
+	</bean>
+
+	<!-- 必须要在Spring的配置文件里指定数据源，而不能在hibernate.cfg.xml里指定，否则 Spring会找不到数据源，在配置事务管理器的时候会报错（Cannot 
+		unwrap to requested type [javax.sql.DataSource]） 数据源有多种选择，这里采用Spring自带的。 -->
+	<bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.p6spy.engine.spy.P6SpyDriver"></property>
+		<!--<property name="jdbcUrl"-->
+				  <!--value="jdbc:p6spy:mysql://127.0.0.1:3306/db_hodays?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>-->
+		<!--<property name="user" value="server_user"/>-->
+		<!--<property name="password" value="server_user"/>-->
+
+		<property name="jdbcUrl"
+				  value="jdbc:p6spy:mysql://127.0.0.1:3306/luxuryvoice_v2_test_copy?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"/>
+		<property name="user" value="root"/>
+		<property name="password" value="root"/>
+
+		<!--连接池中保留的最小连接数。-->
+		<property name="minPoolSize" value="10" />
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="100" />
+		<!--最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="1800" />
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="3" />
+		<property name="maxStatements" value="1000" />
+		<property name="initialPoolSize" value="10" />
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+		<!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="true" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+
+	<!-- 配置SessionFactory，由于创建一个SessionFactory的代价很高昂，所以要放到Spring容器 中来管理，其属性包含一个数据源实例。 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!--<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>-->
+		<property name="packagesToScan">
+			<list>
+				<!-- 扫描hibernate配置映射到数据表 -->
+				<value>cn.com.ql.wiseBeijing.user.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.news.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.dec.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.policy.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.imageService.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.session.daoBean</value>
+				<value>cn.com.ql.wiseBeijing.auth.daoBean</value>
+				<value>cn.lv.jewelry.activity.daoBean</value>
+				<value>cn.lv.jewelry.enterprise.daoBean</value>
+				<value>cn.lv.jewelry.product.daoBean</value>
+				<value>cn.lv.jewelry.brand.daoBean</value>
+				<value>cn.lv.jewelry.designer.daoBean</value>
+				<value>cn.lv.jewelry.fashion.daoBean</value>
+				<value>cn.lv.jewelry.label.daobean</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="DataSource" />
+	</bean>
+
+	<!-- 定义事务管理器，其属性包含一个SessionFactory实例 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 这个配置表明由注解@Transactional来驱动事务，要在工程中导入cglib.jar包 -->
+	<tx:annotation-driven />
+	<!-- <import resource="common.xml" /> -->
+	<!-- 扫描spring bean -->
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.user.frontservice"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.user.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.user.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.news.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.news.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.news.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.dec.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.dec.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.dec.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.imageService.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.imageService.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.imageService.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.other.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.other.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.policy.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.policy.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.policy.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.session.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.session.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.upload"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.auth.dao"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.auth.service"></context:component-scan>
+	<context:component-scan base-package="cn.com.ql.wiseBeijing.auth.frontservice"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.index.indexActivity.frontService"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.activity.dao"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.activity.service"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.enterprise.dao"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.enterprise.service"></context:component-scan>
+    <context:component-scan base-package="cn.lv.jewelry.brand.dao"></context:component-scan>
+    <context:component-scan base-package="cn.lv.jewelry.brand.service"></context:component-scan>
+    <context:component-scan base-package="cn.lv.jewelry.designer.dao"></context:component-scan>
+    <context:component-scan base-package="cn.lv.jewelry.designer.service"></context:component-scan>
+	<context:component-scan base-package="cn.lv.jewelry.*"></context:component-scan>
+</beans>
