@@ -1,5 +1,6 @@
 package cn.com.ql.wiseBeijing.user.daoBean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,99 +14,59 @@ public class User
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String username;
-	private String mobile;
-	private String email;
-	private String nickname;
-	private String headpic;
-	private String createtime;
-	private String status;
-	private String password;
-	private Integer gender;
-	private String givename;
-	private Integer type;
-	private String IDNumber;
-	
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	private String name;
+	@Column(name = "create_time")
+	private Long createTime;
+	private Integer status;
+	@Column(name = "is_delete")
+	private Integer isDelete;
+	private Integer level;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+
+	public String getName() {
+		return name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getMobile() {
-		return mobile;
+
+	public Long getCreateTime() {
+		return createTime;
 	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	public String getHeadpic() {
-		return headpic;
-	}
-	public void setHeadpic(String headpic) {
-		this.headpic = headpic;
-	}
-	public String getCreatetime() {
-		return createtime;
-	}
-	public void setCreatetime(String createtime) {
-		this.createtime = createtime;
-	}
-	public String getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Integer getGender() {
-		return gender;
-	}
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
-	public String getGivename() {
-		return givename;
-	}
-	public void setGivename(String givename) {
-		this.givename = givename;
+
+	public Integer getIsDelete() {
+		return isDelete;
 	}
 
-	public Integer getType() {
-		return type;
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
 	}
 
-	public void setType(Integer type) {
-		this.type = type;
+	public Integer getLevel() {
+		return level;
 	}
 
-	public String getIDNumber() {
-		return IDNumber;
-	}
-
-	public void setIDNumber(String IDNumber) {
-		this.IDNumber = IDNumber;
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 }

@@ -3,7 +3,6 @@ package cn.com.ql.wiseBeijing.user.dao;
 import cn.com.ql.wiseBeijing.dao.BasicDao;
 import cn.com.ql.wiseBeijing.serviceUtil.StringUtil;
 import cn.com.ql.wiseBeijing.user.daoBean.User;
-import cn.com.ql.wiseBeijing.user.daoBean.UserBind;
 import cn.com.ql.wiseBeijing.user.frontBean.FNewUserBean;
 import cn.xxtui.support.page.Page;
 import cn.xxtui.support.page.PageWaterfallAdapter;

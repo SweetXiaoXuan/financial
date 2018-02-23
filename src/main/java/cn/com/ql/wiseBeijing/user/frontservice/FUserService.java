@@ -8,8 +8,6 @@ import cn.com.ql.wiseBeijing.user.frontBean.FUserActivitiesBean;
 import cn.com.ql.wiseBeijing.user.frontBean.FUserBean;
 import cn.com.ql.wiseBeijing.user.frontBean.FUserBindBean;
 import cn.com.ql.wiseBeijing.user.service.UserService;
-import cn.lv.jewelry.activity.daoBean.ActivityPrivilegeStatus;
-import cn.lv.jewelry.activity.service.ActivityService;
 import cn.xxtui.support.bean.ResultBean;
 import cn.xxtui.support.bean.ResultStruct;
 import cn.xxtui.support.session.AccessType;

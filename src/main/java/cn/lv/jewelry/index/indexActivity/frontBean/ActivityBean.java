@@ -1,7 +1,6 @@
 package cn.lv.jewelry.index.indexActivity.frontBean;
 
 import cn.com.ql.wiseBeijing.user.daoBean.User;
-import cn.lv.jewelry.activity.daoBean.ActivityStatusType;
 
 import javax.ws.rs.FormParam;
 import java.util.List;
@@ -47,8 +46,6 @@ public class ActivityBean {
 	private String endDateTime;
 	@FormParam("description")
 	private String description;
-	@FormParam("status")
-	private Integer status = ActivityStatusType.UPCOMING.getV();
 	@FormParam("registerEndTime")
 	private String registerEndTime;
 	private Integer readersNum;
@@ -102,13 +99,6 @@ public class ActivityBean {
 		this.registerEndTime = registerEndTime;
 	}
 
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
 
 	public String getBeginDateTime() {
 		return beginDateTime;
